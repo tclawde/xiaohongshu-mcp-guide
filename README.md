@@ -284,3 +284,42 @@ MIT License
 ---
 
 *如果这个项目对你有帮助，欢迎 Star ⭐ 支持！*
+
+## 🔧 登录修复说明
+
+小红书更新了登录页面，原登录地址 `/user/account/login` 可能返回"工程师正在抢修"。
+
+**解决方案：**
+
+本项目使用修复版登录流程：
+
+1. 从探索页面 `https://www.xiaohongshu.com/explore` 访问
+2. 点击登录按钮触发二维码弹窗
+3. 扫码登录后自动保存 cookies
+
+**MCP 服务器来源：**
+
+```bash
+# MCP 服务器基于 xpzouying/xiaohongshu-mcp
+# 下载地址：
+https://github.com/xpzouying/xiaohongshu-mcp/releases
+
+# 或使用本项目的 install.sh 自动下载
+bash install.sh
+```
+
+**推荐使用 Skill：**
+
+完整的小红书 MCP Skill 已独立发布：
+
+```bash
+# 推荐使用独立的 Skill 仓库
+git clone https://github.com/tclawde/xiaohongshu-mcp-skill.git
+cd xiaohongshu-mcp-skill
+bash install.sh
+```
+
+## 📦 MCP 来源
+
+- **原始项目**: [xpzouying/xiaohongshu-mcp](https://github.com/xpzouying/xiaohongshu-mcp) (8.4k+ stars)
+- **Skill 仓库**: [tclawde/xiaohongshu-mcp-skill](https://github.com/tclawde/xiaohongshu-mcp-skill)
