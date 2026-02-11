@@ -11,7 +11,6 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-COOKIES_PATH = Path.home() / ".openclaw" / "workspace" / "xiaohongshu_cookies_live.json"
 WORKSPACE_DIR = Path.home() / ".openclaw" / "workspace"
 
 async def login_and_notify():
@@ -108,11 +107,24 @@ async def check_login_status(page) -> bool:
     return False
 
 async def save_cookies(context, page):
-    """保存 cookies"""
+    """保存 cookies 到所有 MCP 可能读取的位置"""
     cookies = await context.cookies()
-    with open(COOKIES_PATH, 'w') as f:
-        json.dump(cookies, f, indent=2)
-    print(f"💾 Cookies 已保存: {COOKIES_PATH}")
+    cookies_json = json.dumps(cookies, indent=2)
+
+    # 保存到多个位置，确保 MCP 能读取
+    paths = [
+        WORKSPACE_DIR / "cookies.json",           # MCP 默认读取位置
+        WORKSPACE_DIR / "xiaohongshu_cookies_live.json",  # 备份
+        Path("/tmp/cookies.json"),                # 旧路径兼容
+    ]
+
+    for p in paths:
+        try:
+            with open(p, 'w') as f:
+                f.write(cookies_json)
+            print(f"💾 Cookies 已保存: {p}")
+        except Exception as e:
+            print(f"⚠️ 保存失败 {p}: {e}")
 
 def main():
     asyncio.run(login_and_notify())
